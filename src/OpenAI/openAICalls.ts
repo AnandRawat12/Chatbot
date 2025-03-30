@@ -210,8 +210,10 @@ if(status){
 const listPrompt = `
 Based on the generated list of consolers in json format ${JSON.stringify(list)} you should find only full_name, email. You should given a proper answer of this list like:
 The list of consoler that can help you based on your query:
-1. full_name: email
-2. full_name: email
+1. - full_name
+   - email
+2. - full_name
+   - email
 ...........
 - If the list is empty then give the message to the user that sorry we don't have any consoler in this city and country.
 - Answer should be in markdown format.
