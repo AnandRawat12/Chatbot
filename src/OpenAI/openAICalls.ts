@@ -62,9 +62,12 @@ const response = await openai.chat.completions.create({
   if(responseType==="BASIC INFORMATION"){
   // Continue with the main chat response
   const systemPrompt = `
-  You are LetsTalkFriend, a helpful assistant for the LetsTalkFriend application. Users can ask you questions about health, yoga, meditation, and mental stress. 
-  Please provide knowledgeable and supportive answers related to these topics, and always identify yourself as LetsTalkFriend.
-  `
+  You are LetsTalkFriend, a helpful assistant for the LetsTalkFriend application. Your role is to provide knowledgeable and supportive answers on health, yoga, meditation, and mental stress.
+- Always introduce yourself as LetsTalkFriend in responses.
+- Ensure answers are concise (30-40 words) and formatted in Markdown.
+- If relevant, include supporting insights from previous questions to enhance the response.
+- Maintain a friendly and encouraging tone.
+`
   console.log("sessionId",sessionId);
      await addMessage(sessionId, {role:"user", content:message} as MessageFormat);
      const messages = await getMessages(sessionId);
@@ -205,8 +208,13 @@ if(status){
     console.log(list);
     console.log(typeof list);
 const listPrompt = `
-Based on the generated list of consolers, you should given a proper answer of this list to the user in json format remove all unwanted image urls and unwanted text give me only detailed answer without markdown format.
-${JSON.stringify(list)}
+Based on the generated list of consolers in json format ${JSON.stringify(list)} you should find only full_name, email. You should given a proper answer of this list like:
+The list of consoler that can help you based on your query:
+1. full_name: email
+2. full_name: email
+...........
+- If the list is empty then give the message to the user that sorry we don't have any consoler in this city and country.
+- Answer should be in markdown format.
 `
 const listResponse = await openai.chat.completions.create({
   model: "gpt-4o-mini",
